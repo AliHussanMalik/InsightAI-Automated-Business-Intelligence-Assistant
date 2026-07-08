@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+plotly
+
+fastapi
+uvicorn
+
+python-multipart
+pydantic
+python-dotenv
+
+jupyter
+openpyxl
