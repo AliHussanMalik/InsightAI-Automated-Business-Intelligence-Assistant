@@ -1,0 +1,19 @@
+from fastapi import APIRouter, UploadFile, File , Depends
+
+from sqlalchemy.orm import Session
+from app.api.dependencies.database import get_db
+
+from app.services.dataset_service import DatasetService
+
+router = APIRouter(
+    prefix="/datasets",
+    tags=["Datasets"] 
+)
+
+
+@router.post("/upload")
+async def upload_dataset(
+    file: UploadFile = File(...),
+    db:Session = Depends(get_db),
+):
+    return await DatasetService.upload_dataset(file,db)

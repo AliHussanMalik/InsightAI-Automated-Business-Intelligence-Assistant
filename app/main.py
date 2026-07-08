@@ -1,13 +1,17 @@
 from fastapi import FastAPI
 
+from app.api.routes.dataset_routes import router as dataset_router
+
 app = FastAPI(
-    title="insights",
-    description="AI Powered Business Analytics Platform",
-    version = "1.0.0"
+    title="InsightAI",
+    version="0.1.0"
 )
+
+app.include_router(dataset_router)
+
 
 @app.get("/")
 def home():
-    return{
-        "message": "InsightAI API is running"
+    return {
+        "message": "InsightAI API"
     }
