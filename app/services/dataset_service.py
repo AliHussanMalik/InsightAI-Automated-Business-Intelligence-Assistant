@@ -33,8 +33,8 @@ class DatasetService:
             stored_filename=saved_file["stored_filename"],
             file_type=file.filename.split(".")[-1].lower(),
             file_size=saved_file["file_size"],
-            rows=metadata["rows"],
-            columns=metadata["columns"],
+            rows=metadata.rows,
+            columns=metadata.columns,
         )
         
         dataset = DatasetRepository.create(db, dataset)
