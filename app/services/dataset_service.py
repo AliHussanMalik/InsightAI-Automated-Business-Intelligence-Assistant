@@ -2,11 +2,12 @@ from app.data.profiler import DataProfiler
 from app.models.dataset import Dataset
 from app.repositories.dataset_repository import DatasetRepository
 from fastapi import UploadFile
-
+from app.analytics.statistics import StatisticsAnalyzer
 from app.data.validator import FileValidator
 from app.services.storage_service import StorageService
 from app.data.loader import DataLoader
 from sqlalchemy.orm import Session
+from app.analytics.quality import DataQualityAnalyzer
 
 class DatasetService:
 
@@ -21,12 +22,13 @@ class DatasetService:
         saved_file = await StorageService.save_file(file)
         df = DataLoader.load(saved_file["file_path"])
         
-        # metadata ={
-        #     "rows": len(df),
-        #     "columns": len(df.columns),
-        #     "column_names": list(df.columns)
-        # }
         metadata = DataProfiler.profile(df)
+        
+        statistics = StatisticsAnalyzer.analyze(df)
+        print(statistics)
+        
+        quality = DataQualityAnalyzer.analyze(df)
+        print(quality)
         
         dataset = Dataset(
             filename=saved_file["original_filename"],
@@ -38,12 +40,6 @@ class DatasetService:
         )
         
         dataset = DatasetRepository.create(db, dataset)
-
-        # return {
-        #     "message": "Validation successful.",
-        #     **saved_file,
-        #     **metadata
-        # }
         
         return {
     "id": str(dataset.id),
