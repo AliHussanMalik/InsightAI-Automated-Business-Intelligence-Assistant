@@ -9,9 +9,9 @@ class VisualizationAnalyzer:
     OUTPUT_DIR = "reports/figures"
 
     @classmethod
-    def generate(cls, df: pd.DataFrame):
+    def generate_histograms(cls, df: pd.DataFrame)-> list[str]:
 
-        os.makedirs(cls.OUTPUT_DIR, exist_ok=True)
+        # os.makedirs(cls.OUTPUT_DIR, exist_ok=True)
 
         generated_files = []
 
@@ -38,5 +38,48 @@ class VisualizationAnalyzer:
             plt.close()
 
             generated_files.append(path)
+
+        return generated_files
+    
+    
+    @classmethod
+    def generate_boxplots(cls, df: pd.DataFrame)->list[str]:
+
+        generated = []
+
+        numeric = df.select_dtypes(include="number")
+
+        for column in numeric.columns:
+
+            plt.figure(figsize=(8,5))
+
+            plt.boxplot(df[column].dropna())
+
+            plt.title(f"{column} Boxplot")
+
+            plt.ylabel(column)
+
+            filename = f"{column}_boxplot.png"
+
+            path = os.path.join(cls.OUTPUT_DIR, filename)
+
+            plt.savefig(path)
+
+            plt.close()
+
+            generated.append(path)
+
+        return generated
+    
+    
+    @classmethod
+    def generate(cls, df: pd.DataFrame)-> list[str]:
+
+        os.makedirs(cls.OUTPUT_DIR, exist_ok=True)
+
+        generated_files = []
+
+        generated_files.extend(cls.generate_histograms(df))
+        generated_files.extend(cls.generate_boxplots(df))
 
         return generated_files
