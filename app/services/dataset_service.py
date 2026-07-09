@@ -8,6 +8,8 @@ from app.services.storage_service import StorageService
 from app.data.loader import DataLoader
 from sqlalchemy.orm import Session
 from app.analytics.quality import DataQualityAnalyzer
+from app.analytics.outliers import OutlierAnalyzer
+from app.analytics.visualization import VisualizationAnalyzer
 
 class DatasetService:
 
@@ -25,10 +27,25 @@ class DatasetService:
         metadata = DataProfiler.profile(df)
         
         statistics = StatisticsAnalyzer.analyze(df)
-        print(statistics)
+        # print(statistics)
         
         quality = DataQualityAnalyzer.analyze(df)
-        print(quality)
+        # print(quality)
+        
+        outliers = OutlierAnalyzer.analyze(df)
+        # print(outliers)
+        
+        visualizations = VisualizationAnalyzer.generate(df)
+        print(visualizations)
+        
+        
+        analysis = {
+            "profile": metadata.model_dump(),
+            "statistics":statistics,
+            "quality":quality,
+            "outliers":outliers,
+        }
+        
         
         dataset = Dataset(
             filename=saved_file["original_filename"],
