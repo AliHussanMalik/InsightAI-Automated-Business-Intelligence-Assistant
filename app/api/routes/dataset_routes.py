@@ -17,3 +17,9 @@ async def upload_dataset(
     db:Session = Depends(get_db),
 ):
     return await DatasetService.upload_dataset(file,db)
+
+@router.get("/")
+def get_all_datasets(
+    db:Session = Depends(get_db),
+):
+    return DatasetService.get_all_datasets(db)
