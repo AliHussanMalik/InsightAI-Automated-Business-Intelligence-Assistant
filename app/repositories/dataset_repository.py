@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 
 from app.models.dataset import Dataset
 
-
+from uuid import UUID
+from pydantic import BaseModel
 class DatasetRepository:
 
     @staticmethod
@@ -22,7 +23,8 @@ class DatasetRepository:
     def get_by_id(db:Session, dataset_id:UUID):
         
         return(
-            ab.query(Dataset)
+            db.query(Dataset)
             .filter(Dataset.id == dataset_id)
             .first()
         )
+        

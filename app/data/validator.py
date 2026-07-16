@@ -3,7 +3,7 @@ from fastapi import HTTPException, UploadFile
 
 class FileValidator:
     ALLOWED_EXTENSIONS = {".csv", ".xlsx", ".xls"}
-    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+    MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 MB
 
     @classmethod
     async def validate(cls, file: UploadFile) -> None:

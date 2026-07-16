@@ -17,6 +17,8 @@ from app.ai.insight_generator import InsightGenerator
 from app.ai.recommendation_engine import RecommendationEngine
 from app.analytics.correlation import CorrelationAnalyzer
 import matplotlib.pyplot as plt
+from app.data.loader import DataLoader
+from app.services.query_service import QueryService
 import os
 
 class DatasetService:
@@ -109,6 +111,34 @@ class DatasetService:
     @staticmethod
     def get_all_datasets(db:Session):
         return DatasetRepository.get_all(db)
+    
+    @staticmethod
+    def query_dataset(request,db):
+        dataset = DatasetRepository.get_by_id(
+            db,
+            request.dataset_id
+        )
+        if not dataset:
+            raise HTTPException(
+                status_code=404,
+                detail="Data not Found"
+            )
+        file_path = os.path.join(
+            StorageService.UPLOAD_DIR,
+            dataset.stored_filename
+        )
+        df = DataLoader.load(file_path)
+
+        # os.path.join(
+        #     "uploads",
+        #     dataset.stored_filename
+        # )
+        
+        return QueryService.answer(
+            request.question,
+            df
+        )
+                
     
     
     @staticmethod
