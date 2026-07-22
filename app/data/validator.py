@@ -28,7 +28,7 @@ class FileValidator:
         if len(contents) > cls.MAX_FILE_SIZE:
             raise HTTPException(
                 status_code=400,
-                detail="File exceeds the maximum size of 10 MB."
+                detail="File exceeds the maximum size of 20 MB."
             )
 
         # Reset pointer so other code can read the file again

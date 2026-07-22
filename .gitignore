@@ -9,9 +9,11 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data files
-
-# Generated reports
+# Runtime Storage & Reports
+storage/uploads/*
+!storage/uploads/.gitkeep
+reports/figures/*
+!reports/figures/.gitkeep
 
 # IDE
 .vscode/
@@ -20,4 +22,3 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
-.env

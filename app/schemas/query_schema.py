@@ -1,10 +1,12 @@
-from pydantic import BaseModel
 from uuid import UUID
+
+from pydantic import BaseModel
+
 
 class QueryRequest(BaseModel):
     dataset_id: UUID
-    question:str
-    
-    
+    question: str
+
+
 class QueryResponse(BaseModel):
-    answer:str
+    answer: str

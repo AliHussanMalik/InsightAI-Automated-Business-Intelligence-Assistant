@@ -2,7 +2,8 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns  
+import seaborn as sns
+
 
 class VisualizationAnalyzer:
 
@@ -43,27 +44,8 @@ class VisualizationAnalyzer:
 
             plt.savefig(boxplot_path)
             plt.close()
-            
-            correlation = df.select_dtypes(include="number").corr()
-            
-            plt.figure(figsize=(8,6))
 
-            sns.heatmap(
-                 correlation,
-                annot=True,
-                cmap="coolwarm"
-                )
-
-            heatmap = os.path.join(
-                    cls.OUTPUT_DIR,
-                    "correlation_heatmap.png"
-                )
-
-            plt.savefig(heatmap)
-
-            plt.close()
-
-        visualizations.append(
+            visualizations.append(
                 {
                     "column": column,
                     "histogram": histogram_path,
@@ -71,4 +53,23 @@ class VisualizationAnalyzer:
                 }
             )
 
-        return visualizations
+        # Generate correlation heatmap once if 2 or more numeric columns exist
+        if len(numeric.columns) >= 2:
+            correlation = numeric.corr()
+
+            plt.figure(figsize=(8, 6))
+            sns.heatmap(
+                correlation,
+                annot=True,
+                cmap="coolwarm"
+            )
+            plt.title("Correlation Heatmap")
+
+            heatmap_path = os.path.join(
+                cls.OUTPUT_DIR,
+                "correlation_heatmap.png"
+            )
+            plt.savefig(heatmap_path)
+            plt.close()
+
+        return visualizations

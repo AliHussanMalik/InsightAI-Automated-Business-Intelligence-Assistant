@@ -1,7 +1,10 @@
+import pandas as pd
+
+
 class QueryExecutor:
 
     @staticmethod
-    def execute(intent, df):
+    def execute(intent: str, df: pd.DataFrame):
 
         if intent == "rows":
             return len(df)
@@ -9,4 +12,4 @@ class QueryExecutor:
         if intent == "columns":
             return list(df.columns)
 
-        ...
+        return None
