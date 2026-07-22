@@ -1,5 +1,6 @@
 import React from 'react';
-import { Sparkles, Database, Activity } from 'lucide-react';
+import { Sparkles, Database } from 'lucide-react';
+import { ThemeSelector } from './ThemeSelector';
 
 export const Header = ({ datasets, activeDataset, onSelectDataset, backendStatus }) => {
   return (
@@ -15,23 +16,19 @@ export const Header = ({ datasets, activeDataset, onSelectDataset, backendStatus
       </div>
 
       <div className="header-actions">
+        {/* Theme Selector */}
+        <ThemeSelector />
+
+        {/* Dataset Selector */}
         {datasets && datasets.length > 0 && (
           <div className="dataset-selector" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Database size={16} color="var(--text-muted)" />
             <select
+              className="custom-select"
               value={activeDataset?.id || ''}
               onChange={(e) => {
                 const found = datasets.find((d) => d.id === e.target.value);
                 if (found) onSelectDataset(found);
-              }}
-              style={{
-                background: 'rgba(30, 41, 59, 0.8)',
-                color: '#fff',
-                border: '1px solid var(--border-glass)',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                outline: 'none',
-                fontSize: '13px',
               }}
             >
               {datasets.map((d) => (
@@ -51,3 +48,4 @@ export const Header = ({ datasets, activeDataset, onSelectDataset, backendStatus
     </header>
   );
 };
+
